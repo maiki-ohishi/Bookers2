@@ -1,0 +1,42 @@
+<%= render '/header.html.erb' %>
+
+<div class="container">
+	<% if flash[:notice] %>
+		<p id="notice"><%= flash[:notice] %></p>
+	<% end %>
+	<div class="row">
+		<%= render '/userinfo.html.erb' %>
+		<div class="col-xs-9">
+			<h1>Book detail</h1>
+			<table class="table">
+				<tbody>
+					<tr>
+						<% if @user.profile_image.present? %>
+							<td><%= link_to user_path(@user.id) do %>
+								<%= attachment_image_tag @user, :profile_image, :fill, 40, 40, format: 'jpeg', class: "attachment user profile_image fallback" %>
+								<br>
+								<%= @user.name %>
+								<% end %>
+							</td>
+						<% else %>
+							<td><%= link_to user_path(@user.id) do %>
+								<%= image_tag 'noimage.gif', :height => "40", class: "attachment user profile_image fallback" %>
+								<br>
+								<%= @user.name %>
+								<% end %>
+							</td>
+						<% end %>
+						<td><%= link_to "#{@book_detail.title}", book_path(@book_detail.id) %></td>
+						<td><%= @book_detail.body %></td>
+						<% if @user.id == current_user.id %>
+							<td><%= link_to 'Edit', edit_book_path, class: "btn-sm btn-success edit_book_#{@book_detail.id}" %></td>
+							<td><%= link_to 'Destroy', book_path, method: :delete, class: "btn-sm btn-danger destroy_book_#{@book_detail.id}" %></td>
+						<% end %>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<%= render '/footer.html.erb' %>

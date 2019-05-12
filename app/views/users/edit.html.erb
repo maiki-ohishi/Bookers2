@@ -1,0 +1,41 @@
+<%= render '/header.html.erb' %>
+
+<div class="container">
+    <% if flash[:notice] %>
+        <p id="notice"><%= flash[:notice] %></p>
+    <% end %>
+
+    <h2>User info</h2>
+    <%= form_for(@user, url: user_path, :html => {:class => "edit_user", :id => "edit_user_#{@user.id}"}) do |f| %>
+        <div class="error_explanation">
+            <% if @user.errors.any? %>
+                <h3><%= @user.errors.count %> errors prohibited this obj from being saved:</h3>
+                <ul>
+                    <% @user.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                    <% end %>
+                </ul>
+            <% end %>
+        </div>
+        <div class="field">
+            <div class="field_with_errors">
+                <label for="user_name">Name</label>
+            </div>
+            <div class="field_with_errors">
+                <%= f.text_field :name, placeholder:"name", class: "name", id: "user_name", name: "user[name]" %>
+            </div>
+        </div>
+        <div class="field">
+            <label for="user_image">Image</label>
+            <%= f.attachment_field :profile_image, palceholder:'user_image', id: "user_profile_image", name: "user[profile_image]" %>
+        </div>
+        <div class="field">
+            <label for="user_introduction">Introduction</label>
+            <%= f.text_area :introduction, placeholder:"introduction", id: "use_introduction", name: "user[introduction]" %>
+        </div>
+        <div class="actions">
+            <%= f.submit "Update User" , name: "commit" %>
+        </div>
+    <% end %>
+</div>
+<%= render '/footer.html.erb' %>
